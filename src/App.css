@@ -36,3 +36,27 @@
     transform: rotate(360deg);
   }
 }
+
+.form-label{
+
+  color: white;
+}
+
+.dropdown-item {
+ 
+  padding: 0.35rem 3.5rem;
+ 
+}
+
+.dropdown-menu {
+  top: absolute;
+  top: 121%;
+ 
+  padding: 0rem 0;
+ 
+}
+
+.cardImg{
+
+  max-width: 250px;
+}
