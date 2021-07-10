@@ -1,5 +1,5 @@
 import { http } from "../BaseApi"
-import { newProduct, LoadData2, removeProduct } from "./types"
+import { newProduct, LoadData2, removeProduct, updateproduct } from "./types"
 
 
 export const LoadApi2 = () => {
@@ -50,4 +50,23 @@ export const DeleteProduct = (value) => {
 
 }
 
+
+export const UpdateProduct = (value) => {
+    console.log("updte", value)
+    return (dispatch) => {
+
+        http.patch("/Product/" + value.id, {
+            Title: value.Title, Description: value.Description,
+            Discount: value.Discount, Price: value.Price, imageUrl: value.imageUrl
+        }).then((res) => {
+            console.log("action", res.data)
+            dispatch({
+                type: updateproduct,
+                payload: value
+            })
+        })
+
+    }
+
+}
 

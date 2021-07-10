@@ -1,7 +1,7 @@
 import React from "react"
 import { Table, Dropdown, Form, Button, Col } from "react-bootstrap"
 import { connect } from "react-redux"
-import { AddProduct, LoadApi2, DeleteProduct } from "../action/ProductAction"
+import { AddProduct, LoadApi2, DeleteProduct, UpdateProduct } from "../action/ProductAction"
 
 
 function Product(props) {
@@ -62,6 +62,28 @@ function Product(props) {
         props.DeleteProduct(id)
     }
 
+    function Update(value) {
+
+        setProduct({
+            "id": value.id,
+            "Title": value.Title,
+            "Price": value.Price,
+            "Discount": value.Discount,
+            "imageUrl": value.imageUrl,
+            "Description": value.Description,
+
+        })
+        setclick(true)
+
+    }
+
+    function UpdateForm(event) {
+        event.preventDefault()
+        props.UpdateProduct(Product)
+        setProduct({})
+        setclick(false)
+    }
+
     function ProductList() {
         // console.log("test", props.list)
         return props.list.map(singleData => {
@@ -72,11 +94,15 @@ function Product(props) {
                     <td>{singleData.Title}</td>
                     <td>{singleData.Description}</td>
                     <td>{singleData.Price}</td>
+                    <td>{singleData.Discount}</td>
                     <td><img src={singleData.imageUrl} width="70" /></td>
                     <td>{singleData.categoryId}</td>
                     <td><button className="btn btn-info" onClick={() => {
                         Delete(singleData.id)
                     }}>Delete</button></td>
+                    <td><button className="btn btn-info" onClick={() => {
+                        Update(singleData)
+                    }}>Update</button></td>
                 </tr>
             </>
 
@@ -94,9 +120,10 @@ function Product(props) {
                         <th>Title</th>
                         <th>Description</th>
                         <th>Price</th>
+                        <th>Discount</th>
                         <th>Image</th>
                         <th>Category Id</th>
-                        <th>Operation</th>
+                        <th colSpan="2">Operation</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -112,9 +139,9 @@ function Product(props) {
             <div className="row">
                 <div className="col-md-3"></div>
                 <div className="text-center col-md-6 bg-danger p-3">
-                    <Form onSubmit={submit} className="mt-5">
+                    <Form onSubmit={submit} className="mt-3">
                         <Form.Group controlId="formBasicEmail">
-                            <Form.Label><h3>Title</h3></Form.Label>
+                            <Form.Label><h5>Title</h5></Form.Label>
                             <Form.Control type="text" placeholder="Title"
                                 name="Title" value={Product.Title}
                                 onChange={changehandler}
@@ -123,21 +150,27 @@ function Product(props) {
                         </Form.Group>
 
                         <Form.Group controlId="formBasicPassword">
-                            <Form.Label><h3>Description</h3></Form.Label>
+                            <Form.Label><h5>Description</h5></Form.Label>
                             <Form.Control type="text" placeholder="Description"
                                 name="Description" value={Product.Description} onChange={changehandler} />
                         </Form.Group>
 
                         <Form.Group controlId="formBasicPassword">
-                            <Form.Label><h3>Price</h3></Form.Label>
+                            <Form.Label><h5>Price</h5></Form.Label>
                             <Form.Control type="text" placeholder="Description"
                                 name="Price" value={Product.Price} onChange={changehandler} />
                         </Form.Group>
 
                         <Form.Group controlId="formBasicPassword">
-                            <Form.Label><h3>Image Url</h3></Form.Label>
+                            <Form.Label><h5>Discount</h5></Form.Label>
+                            <Form.Control type="text" placeholder="Description"
+                                name="Discount" value={Product.Discount} onChange={changehandler} />
+                        </Form.Group>
+
+                        <Form.Group controlId="formBasicPassword">
+                            <Form.Label><h5>Image Url</h5></Form.Label>
                             <Form.Control type="text" placeholder="ImageUrl"
-                                name="imageUrl" onChange={changehandler} />
+                                name="imageUrl" onChange={changehandler} value={Product.imageUrl} />
                         </Form.Group>
 
 
@@ -153,6 +186,9 @@ function Product(props) {
                         </Form.Group>
                         <Button variant="primary" type="submit">
                             Submit
+</Button>
+                        <Button variant="primary" onClick={UpdateForm}>
+                            Update
 </Button>
                     </Form>
                 </div>
@@ -182,4 +218,4 @@ function mapstatetoprops(state) {
 }
 
 
-export default connect(mapstatetoprops, { AddProduct, LoadApi2, DeleteProduct })(Product)
+export default connect(mapstatetoprops, { AddProduct, LoadApi2, DeleteProduct, UpdateProduct })(Product)

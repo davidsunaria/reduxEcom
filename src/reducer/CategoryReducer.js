@@ -15,7 +15,7 @@ function categoryReducer(state = intial, action) {
     switch (action.type) {
         case newcategory:
             let adddata = state.category.concat(action.payload)
-            console.log("adddata", state.category)
+            //  console.log("adddata", state.category)
             return { ...state, category: adddata }
 
         case LoadData:

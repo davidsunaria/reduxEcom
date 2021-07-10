@@ -5,6 +5,7 @@ import { BrowserRouter, Link, Route, withRouter, useLocation } from "react-route
 import { LinkContainer } from 'react-router-bootstrap'
 import { Navbar, Nav, NavDropdown, Form, Card, Button } from 'react-bootstrap'
 import { AddProduct, LoadApi2, DeleteProduct } from "../action/ProductAction"
+import { addItem } from "../action/CartAction"
 
 
 
@@ -38,6 +39,10 @@ function SingleCategory(props) {
                 return false
             }
         })
+
+        function addcart(data) {
+            props.addItem(data)
+        }
         return filterData.map(singledata => {
             return <div className="col-md-4 mt-3 text-center">
                 <Card style={{ width: '18rem' }}>
@@ -47,7 +52,13 @@ function SingleCategory(props) {
                         <Card.Text>
                             {singledata.Description}
                         </Card.Text>
-                        <Button variant="primary">{singledata.Price + " Rs"}</Button>
+                        <Card.Text>
+                            Price:   {singledata.Price + " Rs"}
+                        </Card.Text>
+                        <Button variant="primary" onClick={
+                            () => {
+                                addcart(singledata)
+                            }}>Add to Cart</Button>
                     </Card.Body>
                 </Card>
             </div>
@@ -77,4 +88,4 @@ function mapstatetoprops(state) {
 }
 
 
-export default connect(mapstatetoprops, { LoadApi2 })(SingleCategory)
+export default connect(mapstatetoprops, { LoadApi2, addItem })(SingleCategory)

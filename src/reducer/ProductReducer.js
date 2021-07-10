@@ -1,4 +1,4 @@
-import { newProduct, LoadData2, removeProduct } from "../action/types"
+import { newProduct, LoadData2, removeProduct, updateproduct } from "../action/types"
 import { http } from "../BaseApi"
 
 
@@ -15,7 +15,7 @@ function productReducer(state = intial, action) {
     switch (action.type) {
         case newProduct:
             let adddata = state.product.concat(action.payload)
-            console.log("adddata", state.product)
+            //  console.log("adddata", state.product)
             return { ...state, product: adddata }
 
         case LoadData2:
@@ -33,10 +33,24 @@ function productReducer(state = intial, action) {
                     return true
                 }
             })
-
             return { ...state, product: Filterproduct }
+        case updateproduct:
+
+            let index = null
+            for (let i = 0; i < state.product.length; i++) {
+                if (action.payload.id == state.product[i].id) {
+                    index = i
+                    break
+                }
+            }
+            //   console.log("index,", index)
+            let updatedProduct = [...state.product]
+            updatedProduct[index] = action.payload
+            return { ...state, product: updatedProduct }
+
 
     }
+
 
     return state
 
