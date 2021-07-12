@@ -1,11 +1,12 @@
 import { InsertEmoticon } from "@material-ui/icons"
-import { addcartData, incre, decre } from "../action/types"
+import { addcartData, incre, decre, deleteCart } from "../action/types"
 import Cart from "../Component/Cart"
 
 
 
 let intial = {
-    Cart: []
+    Cart: [],
+
 }
 
 
@@ -16,12 +17,15 @@ function cartReducer(state = intial, action) {
     switch (action.type) {
         case addcartData:
 
+
+
             action.payload.count = 1
             let finalCart = [...state.Cart]
             let check = finalCart.every((val) => {
                 return val.id !== action.payload.id
             })
-            // console.log(check)
+
+
             if (check) {
                 let newcart = finalCart.concat(action.payload)
                 return { ...state, Cart: newcart }
@@ -89,6 +93,16 @@ function cartReducer(state = intial, action) {
 
             return { ...state, Cart: minuscart }
 
+        case deleteCart:
+            let deletedCart = state.Cart.filter((value) => {
+                if (value.id == action.payload) {
+                    return false
+                }
+                else {
+                    return true
+                }
+            })
+            return { ...state, Cart: deletedCart }
     }
     return state
 

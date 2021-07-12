@@ -3,39 +3,85 @@ import { connect } from "react-redux"
 import { Container, Row, Col, Table, Button, Form } from "react-bootstrap";
 import { IoMdAddCircle } from 'react-icons/io';
 import { AiFillMinusCircle } from 'react-icons/ai';
-import { Increment, Decrement } from "../action/CartAction"
+import { Increment, Decrement, DeleteCart } from "../action/CartAction"
 
 function Cart(props) {
+
+    const [SubCount, setcount] = React.useState(0)
+    const [SubTotal, settotal] = React.useState(0)
+
 
 
     function incr(id) {
         console.log(id)
         props.Increment(id)
+        makeTotal()
     }
 
     function decr(id) {
         console.log(id)
         props.Decrement(id)
+        makeTotal()
+    }
+
+    function Delete(id) {
+        props.DeleteCart(id)
+        makeTotal()
+    }
+
+    function proceed() {
+
+        if (props.login == false) {
+            props.history.push("/login")
+        }
+        else {
+            props.history.push("/Order")
+        }
+    }
+
+    function makeTotal() {
+        let subtotal = 0
+        let subcount = 0
+        props.List.forEach((singleData) => {
+            console.log(singleData.Price)
+            subtotal = subtotal + singleData.Price
+            subcount = subcount + singleData.count
+        })
+
+
+        setcount(subcount)
+        settotal(subtotal)
+
     }
 
 
+
+
     let cartproducts = props.List.map((value) => {
+        let deductAmount = (value.Price * parseInt(value.Discount)) / 100
+        let finalRate = value.Price - deductAmount
+        console.log(deductAmount)
         return <>
             <tr key={value.id} align="center">
                 <td><img src={value.imageUrl} width="100px" height="100" /></td>
                 <td>{value.Title}</td>
-                <td>{value.Price} $</td>
+                <td style={{ textDecoration: "line-through" }}>{value.Price} </td>
+                <td >{value.Discount} </td>
+                <td>{finalRate} </td>
                 <td>
-                    <span style={{ cursor: "pointer" }} onClick={() => {
-                        incr(value.id)
-                    }}><IoMdAddCircle /></span>
-                    {value.count}
                     <span style={{ cursor: "pointer" }} onClick={() => {
                         decr(value.id)
                     }}>< AiFillMinusCircle /></span>
+
+                    {value.count}
+                    <span style={{ cursor: "pointer" }} onClick={() => {
+                        incr(value.id)
+                    }}><IoMdAddCircle /></span>
                 </td>
-                <td>{value.Price * value.count} $</td>
-                <td> <button className="btn btn-danger" >delete</button>   </td>
+                <td>{finalRate * value.count} </td>
+                <td> <button className="btn btn-danger" onClick={() => {
+                    Delete(value.id)
+                }}>delete</button>   </td>
             </tr>
         </>
     })
@@ -50,10 +96,11 @@ function Cart(props) {
                     <th>Product image</th>
                     <th>Title</th>
                     <th>Price</th>
+                    <th>Discount</th>
+                    <th>With Discount</th>
                     <th>Quantity</th>
                     <th>Amount per Item</th>
                     <th>
-
                     </th>
                 </tr>
 
@@ -61,8 +108,11 @@ function Cart(props) {
             <tbody>
                 {cartproducts}
             </tbody>
-            <tr align="center">Total Quantity:</tr>
-            <Button className="btn btn-primary mt-2">Add Address</Button>
+
+            <tr align="center"> <td colspan="8" className="font-weight-bold"> Total Quantity:{SubCount} <br />  Total Price:{SubTotal}</td></tr>
+            <tr align="center"> <td colspan="8">
+                <Button className="btn btn-primary mt-2" onClick={proceed}>Proceed</Button>
+            </td></tr>
         </Table>
     </Container>
 
@@ -71,8 +121,10 @@ function Cart(props) {
 function mapstatetoprops(state) {
     //  console.log("cart component", state.cartReducer.Cart)
     return {
-        List: state.cartReducer.Cart
+        List: state.cartReducer.Cart,
+        TotalCount: state.cartReducer.SubCount,
+        login: state.visitorReducer.visitorlogin
     }
 }
 
-export default connect(mapstatetoprops, { Increment, Decrement })(Cart)
+export default connect(mapstatetoprops, { Increment, Decrement, DeleteCart })(Cart)

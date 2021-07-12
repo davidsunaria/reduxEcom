@@ -1,5 +1,5 @@
 import { http } from "../BaseApi"
-import { addcartData, incre, decre } from "./types"
+import { addcartData, incre, decre, deleteCart } from "./types"
 
 export const addItem = (data) => {
     return {
@@ -11,7 +11,6 @@ export const addItem = (data) => {
 
 
 export const Increment = (data) => {
-    console.log(data)
     return {
         type: incre,
         payload: data
@@ -20,9 +19,16 @@ export const Increment = (data) => {
 }
 
 export const Decrement = (data) => {
-    console.log(data)
     return {
         type: decre,
+        payload: data
+    }
+
+}
+
+export const DeleteCart = (data) => {
+    return {
+        type: deleteCart,
         payload: data
     }
 

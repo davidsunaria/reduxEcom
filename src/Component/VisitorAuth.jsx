@@ -20,7 +20,7 @@ function VisitorAuth(props) {
 
     if (props.login == true) {
         // console.log(props)
-        props.history.push("/")
+        props.history.goBack()
 
     }
     function submit(event) {

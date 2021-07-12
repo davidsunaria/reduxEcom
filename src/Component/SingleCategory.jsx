@@ -44,23 +44,34 @@ function SingleCategory(props) {
             props.addItem(data)
         }
         return filterData.map(singledata => {
-            return <div className="col-md-4 mt-3 text-center">
-                <Card style={{ width: '18rem' }}>
-                    <Card.Img variant="top" src={singledata.imageUrl} className="cardImg mx-auto d-block" />
+            let deductAmount = (singledata.Price * parseInt(singledata.Discount)) / 100
+            let finalRate = singledata.Price - deductAmount
+            return <div className="col-md-4 mt-3 position-relative Card " >
+                <Card style={{ width: '18rem' }} className="image ">
+                    <Card.Img variant="top" src={singledata.imageUrl} className="cardImg mx-auto d-block  " />
+                    <div class="overlay">
+                        {/* <Button variant="info" className="text" onClick={
+                            () => {
+                                addcart(singledata)
+                            }}>Add to Cart</Button> */}
+                        <div className="text" onClick={
+                            () => {
+                                addcart(singledata)
+                            }}>Add to Cart</div>
+                    </div>
                     <Card.Body>
                         <Card.Title>{singledata.Title}</Card.Title>
                         <Card.Text>
                             {singledata.Description}
                         </Card.Text>
                         <Card.Text>
-                            Price:   {singledata.Price + " Rs"}
+                            <span className="font-weight-bold">   {"Rs. " + finalRate + " "}</span>
+                            <span style={{ textDecoration: "line-through" }} className="font-weight-light">  {singledata.Price + " Rs"}</span>
+                            <span className="text-warning">  {"(" + singledata.Discount + "off)"}</span>
                         </Card.Text>
-                        <Button variant="primary" onClick={
-                            () => {
-                                addcart(singledata)
-                            }}>Add to Cart</Button>
                     </Card.Body>
                 </Card>
+
             </div>
         })
     }
@@ -69,6 +80,13 @@ function SingleCategory(props) {
 
         <>
             <div className="container">
+                <div className="row mt-3">
+                    <div className="col">
+                        {/* <h1 className="text-center text-white bg-dark mt-3"> <marquee width="100%" direction="left" >
+                            There are 20% discount for every   </marquee></h1> */}
+                    </div>
+                </div>
+
                 <div className="row mt-4">
                     {getProduct()}
                 </div>

@@ -8,6 +8,7 @@ import VisitorAuth from "./VisitorAuth"
 import SingleCategory from "./SingleCategory"
 import About from "./About"
 import Home2 from "./Home2"
+import Order from "./Order"
 import SignUp from "./SignUp"
 import Cart from "./Cart"
 import { visitorLogout } from "../action/FrontLogin"
@@ -118,6 +119,7 @@ function Home(props) {
             <Route path={"/login"} component={VisitorAuth} />
             <Route path={"/SignUp"} component={SignUp} />
             <Route path={"/Cart"} component={Cart} />
+            <Route path={"/Order"} component={Order} />
 
 
             <Modal show={show} onHide={handleClose}>
