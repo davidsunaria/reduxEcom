@@ -23,7 +23,7 @@ function Home(props) {
 
     React.useEffect(() => {
         props.LoadApi();
-    }, [])
+    }, [props.login])
 
 
     const [show, setShow] = useState(false);
@@ -31,17 +31,22 @@ function Home(props) {
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
+
+
     function categoryList() {
         // console.log("test", props.list)
-        return props.list.map(singleData => {
-            //console.log("test", singleData)
-            return <>
-                <LinkContainer key={singleData.id} to={"/Product?categoryId=" + singleData.id} >
-                    <NavDropdown.Item>{singleData.Title}</NavDropdown.Item>
-                </LinkContainer>
-            </>
+        if (props.login) {
+            return props.list.map(singleData => {
+                //console.log("test", singleData)
+                return <>
+                    <LinkContainer key={singleData.id} to={"/Product?categoryId=" + singleData.id} >
+                        <NavDropdown.Item>{singleData.Title}</NavDropdown.Item>
+                    </LinkContainer>
+                </>
 
-        })
+            })
+        }
+
     }
 
 
@@ -61,7 +66,7 @@ function Home(props) {
 
     }
 
-
+    console.log("home token", localStorage.getItem("token"))
     return (
         <>
             <Navbar bg="primary" expand="lg">
@@ -100,7 +105,7 @@ function Home(props) {
                             // <LinkContainer className="btn btn-warning ml-4" to="/" onClick={logout}>
                             //     <Nav.Link >Logout</Nav.Link>
                             // </LinkContainer>
-                            <NavDropdown title={props.name[0].username} id="basic-nav-dropdown" className="btn-sm btn-warning ml-4">
+                            <NavDropdown title={props.name} id="basic-nav-dropdown" className="btn-sm btn-warning ml-4">
                                 <LinkContainer to="/" >
                                     <NavDropdown.Item>Profile</NavDropdown.Item>
                                 </LinkContainer>
@@ -158,7 +163,7 @@ function Home(props) {
 }
 
 function mapstatetoprops(state) {
-    // console.log(state.visitorReducer.customer)
+    console.log(state.visitorReducer.customer)
     return {
         list: state.CategoryReducer.category,
         "login": state.visitorReducer.visitorlogin,

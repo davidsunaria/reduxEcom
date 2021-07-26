@@ -184,10 +184,10 @@ function Product(props) {
                         <Form.Group controlId="formBasicCheckbox">
                             <Form.Check type="checkbox" label="Check me out" />
                         </Form.Group>
-                        <Button variant="primary" type="submit">
+                        <Button variant="primary" type="submit" className="mr-2">
                             Submit
 </Button>
-                        <Button variant="primary" onClick={UpdateForm}>
+                        <Button variant="warning" onClick={UpdateForm}>
                             Update
 </Button>
                     </Form>

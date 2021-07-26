@@ -44,7 +44,7 @@ function Cart(props) {
         let subcount = 0
         props.List.forEach((singleData) => {
             console.log(singleData.Price)
-            subtotal = subtotal + singleData.Price
+            subtotal = subtotal + parseInt(singleData.Price)
             subcount = subcount + singleData.count
         })
 
@@ -109,7 +109,9 @@ function Cart(props) {
                 {cartproducts}
             </tbody>
 
-            <tr align="center"> <td colspan="8" className="font-weight-bold"> Total Quantity:{SubCount} <br />  Total Price:{SubTotal}</td></tr>
+            <tr align="center"> <td colspan="8" className="font-weight-bold"> Total Quantity:{SubCount} <br />
+                {/* Total Price:{SubTotal} */}
+            </td></tr>
             <tr align="center"> <td colspan="8">
                 <Button className="btn btn-primary mt-2" onClick={proceed}>Proceed</Button>
             </td></tr>

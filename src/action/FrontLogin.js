@@ -6,12 +6,15 @@ import { customerlogin, logout, SignUp } from "./types"
 export const VisitorLogin = (value) => {
     console.log("vaue", value)
     return (dispatch) => {
-        http.get("/newusers", { params: value }).then((res) => {
-            console.log("vaue", res.data)
-            if (res.data.length > 0) {
+        http.post("/auth/login", value).then((res) => {
+
+            console.log(" res.data", res.data.access_token)
+            if (res.data.access_token) {
+                localStorage.setItem("token", res.data.access_token)
+                localStorage.setItem("email", value.email)
                 dispatch({
                     type: customerlogin,
-                    payload: res.data
+                    payload: value
                 })
 
 
@@ -26,6 +29,7 @@ export const VisitorLogin = (value) => {
 }
 
 export const visitorLogout = () => {
+    localStorage.removeItem("token");
     return {
         type: logout,
     }
@@ -35,13 +39,17 @@ export const visitorLogout = () => {
 export const VisitorSignUp = (value) => {
     console.log("regsiter", value)
     return (dispatch) => {
-        http.post("/newusers", value).then((res) => {
-            console.log("regsiter response", res.data)
+        http.post("/auth/register", value).then((res) => {
+            console.log("regsiter response", res)
+            localStorage.setItem("token", res.data.access_token)
             dispatch({
                 type: SignUp,
                 payload: ""
             })
-        })
+        }).catch((error) => {
+            console.log("error", error.response);
+            alert(error.response.data.message)
+        });
     }
 }
 

@@ -5,17 +5,25 @@ import { http } from "../BaseApi"
 
 let intial = {
     visitorlogin: false,
+
 }
 
 
+if (localStorage.getItem("token") && localStorage.getItem("email")) {
+    intial.visitorlogin = true;
+    intial.customer = localStorage.getItem("email")
+}
+
 
 function visitorReducer(state = intial, action) {
-    // console.log(action.payload)
 
     switch (action.type) {
+
         case customerlogin:
+
+
             // let newcustomer = state.customer.concat(action.payload)
-            return { ...state, customer: action.payload, visitorlogin: true }
+            return { ...state, customer: action.payload.email, visitorlogin: true }
         case logout:
 
             return { ...state, visitorlogin: false }

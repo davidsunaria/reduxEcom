@@ -67,7 +67,7 @@ function SignUp(props) {
                             <Form.Group controlId="formBasicEmail">
                                 <Form.Label>Email address</Form.Label>
                                 <Form.Control type="text" placeholder="Enter email"
-                                    name="username" value={visitor.username} onChange={changeInput} />
+                                    name="email" value={visitor.email} onChange={changeInput} />
                                 <Form.Text className="text-white">
                                     We'll never share your email with anyone else.
                   </Form.Text>
